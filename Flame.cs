@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CollisionExample.Collisons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,6 +37,9 @@ namespace GameProject0
         /// The flames's position in the world
         ///</summary>
         public Vector2 Position { get; private set; }
+        public BoundingRectangle Bounds { get => new(Position, 32 * _scale, 32 * _scale);}
+
+        public string Name => "Flame";
 
         private float _maxHeight;
 
@@ -89,6 +93,11 @@ namespace GameProject0
             Position += _falmeVel * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Position.Y > _minHeight || Position.Y < _maxHeight) _falmeVel.Y *= -1;
             
+        }
+
+        public bool Collides(ISprite other)
+        {
+            return Bounds.CollidesWith(other.Bounds);
         }
     }
 }

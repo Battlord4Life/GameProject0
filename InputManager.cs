@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using GameProject0;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -19,7 +14,7 @@ namespace InputExample
         GamePadState currentGPState;
         GamePadState previousGPState;
 
-        
+
 
         /// <summary>
         /// Requested Direciton
@@ -31,12 +26,29 @@ namespace InputExample
         /// </summary>
         public bool Exit { get; private set; }
 
+        public bool Jump { get; private set; }
+
+        /// <summary>
+        /// Input if the player is Moving
+        /// </summary>
+        public bool Moving { get; private set; }
+
+        public direction EnumDirection { get; private set; }
+
+        public bool Active { get; set; }
+
+        public InputManager()
+        {
+            Active = true;
+        }
+
         /// <summary>
         /// Updates each frame
         /// </summary>
         /// <param name="gameTime">information</param>
         public void Update(GameTime gameTime)
         {
+
             #region Input State Updating
 
             previousKBState = currentKBState;
@@ -48,37 +60,74 @@ namespace InputExample
 
             #endregion
 
-            #region Direction Input
-            //Get Mouse Pos
-            Direction = currentGPState.ThumbSticks.Right * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Active)
+            {
+
+                #region Direction Input
+
+                Vector2 PrevDir = Direction;
+                //Get Mouse Pos
+                Direction = currentGPState.ThumbSticks.Right * 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Moving = !(Direction == PrevDir);
 
 
-            //Get Postion from KB
-            if (currentKBState.IsKeyDown(Keys.Left) || currentKBState.IsKeyDown(Keys.A))
-            {
-                Direction += new Vector2(-100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-            }
-            if (currentKBState.IsKeyDown(Keys.Up) || currentKBState.IsKeyDown(Keys.W))
-            {
-                Direction += new Vector2(0, -100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
-            if (currentKBState.IsKeyDown(Keys.Down) || currentKBState.IsKeyDown(Keys.S))
-            {
-                Direction += new Vector2(0, 100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-            }
-            if (currentKBState.IsKeyDown(Keys.Right) || currentKBState.IsKeyDown(Keys.D))
-            {
-                Direction += new Vector2(100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-            }
 
-            #endregion
+                //Get Postion from KB
 
+                if (currentKBState.IsKeyDown(Keys.Up) || currentKBState.IsKeyDown(Keys.W))
+                {
+                    Moving = true;
+                    Direction += new Vector2(0, -100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    EnumDirection = direction.North;
+                }
+                if (currentKBState.IsKeyDown(Keys.Down) || currentKBState.IsKeyDown(Keys.S))
+                {
+                    Moving = true;
+                    Direction += new Vector2(0, 100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    EnumDirection = direction.South;
+                }
+                if (currentKBState.IsKeyDown(Keys.Left) || currentKBState.IsKeyDown(Keys.A))
+                {
+                    Moving = true;
+                    Direction += new Vector2(-100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    EnumDirection = direction.West;
+
+                }
+                if (currentKBState.IsKeyDown(Keys.Right) || currentKBState.IsKeyDown(Keys.D))
+                {
+                    Moving = true;
+                    Direction += new Vector2(100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
+                    EnumDirection = direction.East;
+                }
+
+                #endregion
+
+                #region Jump Input
+                if ((currentKBState.IsKeyDown(Keys.Space) && !previousKBState.IsKeyDown(Keys.Space) || currentGPState.IsButtonDown(Buttons.A) && !previousGPState.IsButtonDown(Buttons.A)))
+                {
+                    Jump = true;
+                }
+                else
+                {
+                    Jump = false;
+                }
+
+
+                #endregion
+            }
+            else
+            {
+                Direction = new Vector2(0, 0);
+
+            }
             #region Exit Input
 
             if (currentGPState.Buttons.Back == ButtonState.Pressed || currentKBState.IsKeyDown(Keys.Escape))
                 Exit = true;
 
             #endregion
+
+
 
         }
 

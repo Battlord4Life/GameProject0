@@ -44,6 +44,18 @@
 /processorParam:TextureFormat=Color
 /build:flame-spritesheet-32x32.png
 
+#begin HeroSpriteSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,255,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:HeroSpriteSheet.png
+
 #begin hflame-spritesheet-32x32.png
 /importer:TextureImporter
 /processor:TextureProcessor

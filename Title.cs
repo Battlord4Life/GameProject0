@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CollisionExample.Collisons;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -21,6 +22,10 @@ namespace GameProject0
         ///</summary>
         public Vector2 Position { get; private set; }
 
+        public BoundingRectangle Bounds => new(0,0,0,0);
+
+        public string Name => "Title";
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture,Position, Color.White);
@@ -34,6 +39,11 @@ namespace GameProject0
         public void Update(GameTime gameTime)
         {
             
+        }
+
+        public bool Collides(ISprite other)
+        {
+            return false;
         }
 
         public Title(Vector2 Pos)

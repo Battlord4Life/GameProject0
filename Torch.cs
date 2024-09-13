@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CollisionExample.Collisons;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,6 +19,10 @@ namespace GameProject0
         /// The Torches position in the world
         ///</summary>
         public Vector2 Position { get; private set; }
+        
+        public BoundingRectangle Bounds => new(0, 0, 0, 0);
+
+        public string Name => "Torch";
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -32,6 +37,11 @@ namespace GameProject0
         public void Update(GameTime gameTime)
         {
 
+        }
+
+        public bool Collides(ISprite other)
+        {
+            return false;
         }
 
         public Torch(Vector2 Pos)

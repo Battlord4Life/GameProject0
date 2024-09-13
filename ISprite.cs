@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CollisionExample.Collisons;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -30,6 +31,21 @@ namespace GameProject0
         /// <param name="gameTime">GameTime</param>
         /// <param name="spriteBatch">Sprite Batch</param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+
+        /// <summary>
+        /// Bounds of the Sprite
+        /// </summary>
+        public BoundingRectangle Bounds {get;}
+
+        /// <summary>
+        /// If the sprite Collides with any others;
+        /// </summary>
+        /// <param name="other">other object</param>
+        /// <returns>Wether they collides</returns>
+        public bool Collides(ISprite other);
+
+        public string Name { get; }
+
 
     }
         
